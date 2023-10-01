@@ -2,6 +2,41 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+flagKey:
+  enabled: true
+  key: "ChangeThisToSomethingUniqueToYourInstallation"
+
+domain:
+  enabled: true
+  name: "test.example.com"
+
+config:
+  enabled: false
+  variables: |-
+    ERDDAP_adminInstitution=""
+    ERDDAP_adminInstitutionUrl=""
+    ERDDAP_adminIndividualName=""
+    ERDDAP_adminPosition=""
+    ERDDAP_adminPhone="+1 ###-###-####"
+    ERDDAP_adminAddress=""
+    ERDDAP_adminCity=""
+    ERDDAP_adminStateOrProvince=""
+    ERDDAP_adminPostalCode=""
+    ERDDAP_adminCountry=""
+    ERDDAP_adminEmail=""
+
+emailConfig:
+  enabled: false
+  variables: |-
+    ERDDAP_emailEverythingTo="thisisnotanaddress@example.com"
+    ERDDAP_emailDailyReportsTo=""
+    ERDDAP_emailFromAddress=""
+    ERDDAP_emailUserName=""
+    ERDDAP_emailPassword=""
+    ERDDAP_emailProperties=""
+    ERDDAP_emailSmtpHost=""
+    ERDDAP_emailSmtpPort=""
+
 replicaCount: 1
 
 image:
@@ -94,12 +129,5 @@ persistence:
     - ReadWriteOnce
   size: 5Gi
 
-config:
-  enabled: true
-  path: /usr/local/tomcat/bin/config.sh
-  file: ../erddap/conf/config.sh
-
 robots:
   enabled: true
-  path: /usr/local/tomcat/webapps/ROOT/robots.txt
-  file: ../erddap/conf/robots.txt

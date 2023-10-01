@@ -4,6 +4,21 @@ Based on, and extending the work done in dockerizing ERDDAP: [erddap-gold-standa
 
 ## Install this chart
 
+You likely want to make at least a minimum configuration values.yaml from the following:
+
+
+```
+domain:
+  enabled: true
+  name: your.domain.name
+
+config:
+  enabled: true
+  variables: |-
+    ERDDAP_adminInstitution="your institution"
+    ERDDAP_adminEmail="youremail@example.com"
+```
+
 Clone this repository to a machine with the helm binary from [helm.sh](https://helm.sh), review the default values, and install.
 
 ```
