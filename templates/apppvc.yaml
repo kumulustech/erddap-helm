@@ -1,0 +1,12 @@
+{{- if .Values.persistence.enabled }}
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: {{ include "erddap.fullname" . }}-app-pvc
+spec:
+  accessModes: 
+    - {{ .Values.persistence.accessModes | join "," }}
+  resources:
+    requests:
+      storage: 100Mi
+{{- end }}

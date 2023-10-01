@@ -1,0 +1,17 @@
+{{- if .Values.ingressrouter.enabled }}
+apiVersion: traefik.containo.us/v1alpha1
+kind: IngressRoute
+metadata:
+  generation: 1
+  name: {{ include "erddap.fullname" . }}-ingress-route
+spec:
+  entryPoints:
+  - websecure
+  routes:
+  - kind: Rule
+    match: Host(`{{ .Values.ingressrouter.host }}`) && PathPrefix(`/{{ include "erddap.name" . }}`)
+    services:
+    - name: {{ include "erddap.name" . }}
+      namespace: dev
+      port: {{ .Values.ingressrouter.port }}
+{{- end }}

@@ -1,0 +1,124 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ include "erddap.fullname" . }}
+  labels:
+    {{- include "erddap.labels" . | nindent 4 }}
+spec:
+  {{- if not .Values.autoscaling.enabled }}
+  replicas: {{ .Values.replicaCount }}
+  {{- end }}
+  selector:
+    matchLabels:
+      {{- include "erddap.selectorLabels" . | nindent 6 }}
+  template:
+    metadata:
+      {{- with .Values.podAnnotations }}
+      annotations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        {{- include "erddap.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      serviceAccountName: {{ include "erddap.serviceAccountName" . }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+        - name: git-clone
+          image: {{ .Values.git.image }}:{{ .Values.git.tag }}
+          imagePullPolicy: {{ .Values.git.imagePullPolicy }}
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo 'starting git clone' && 
+              git clone https://github.com/ioos/erddap-gold-standard.git /tmp/ed && 
+              echo 'checking mounted directories' && 
+              ls -ld /datasets /content && 
+              echo 'copying files' && 
+              cp -r /tmp/ed/datasets/* /datasets/ && 
+              cp -r /tmp/ed/erddap/content/* /content/ && 
+              echo 'files copied'
+          volumeMounts:
+            - name: git-clone-script
+              mountPath: /scripts/getdata.sh
+              subPath: getdata.sh
+            - name: data
+              mountPath: /datasets
+            - name: app
+              mountPath: /content
+      containers:
+        - name: {{ .Chart.Name }}
+          env:
+          - name: ERDDAP_bigParentDirectory
+            value: "/erddapData/"
+          - name: ERDDAP_contentDirectory
+            value: "/datasets/"
+          - name: ERDDAP_baseUrl
+            value: "http://{{ .Values.ingressrouter.host }}"
+          - name: ERDDAP_baseHttpsUrl
+            value: "https://{{ .Values.ingressrouter.host }}"
+          securityContext:
+            {{- toYaml .Values.securityContext | nindent 12 }}
+          image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
+          imagePullPolicy: {{ .Values.image.pullPolicy }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.service.port }}
+              protocol: TCP
+          # livenessProbe:
+          #   tcpSocket:
+          #   #  path: /
+          #     port: http
+          #   initialDelaySeconds: 5
+          #   periodSeconds: 10
+          #   failureThreshold: 30
+          # readinessProbe:
+          #   httpGet:
+          #     path: /
+          #     port: http
+          resources:
+            {{- toYaml .Values.resources | nindent 12 }}
+          volumeMounts:
+            - name: data
+              mountPath: "/datasets"
+            - name: app
+              mountPath: "/usr/local/tomcat/content/erddap"
+            - name: robots
+              mountPath: /scripts/robots.txt
+              subPath: robots.txt
+            # - name: config
+            #   mountPath: /scripts/config.sh
+            #   subPath: config.sh
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ include "erddap.fullname" . }}-dataset-pvc
+        - name: app
+          persistentVolumeClaim:
+            claimName: {{ include "erddap.fullname" . }}-app-pvc
+        - name: config
+          configMap:
+            name: {{ include "erddap.fullname" . }}-config
+        - name: robots
+          configMap:
+            name: {{ include "erddap.fullname" . }}-robots
+        - name: git-clone-script
+          configMap:
+            name: {{ include "erddap.fullname" . }}-getdata
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}

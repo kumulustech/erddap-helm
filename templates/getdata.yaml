@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "erddap.fullname" . }}-getdata
+data:
+  git-clone.sh: |
+    echo 'starting git clone' && \
+    git clone https://github.com/ioos/erddap-gold-standard.git /tmp/ed && \
+    echo 'checking mounted directories' && \
+    ls -ld /datasets /content && \
+    echo 'copying files' && \
+    cp -r /tmp/ed/datasets/* /datasets/ && \
+    cp -r /tmp/ed/erddap/content/* /content/ && \
+    echo 'files copied'
