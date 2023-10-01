@@ -7,6 +7,33 @@ metadata:
   labels:
     {{- include "erddap.labels" . | nindent 4 }}
 data:
-  setenv.sh: |-
-{{ .Files.Get .Values.robots.file | indent 4 }}
+  robots.txt: |-
+    User-Agent: *
+    Disallow: /erddap/files/
+    Disallow: /files/
+    Disallow: /images/
+    Disallow: /*?
+    Disallow: /*?*
+    Disallow: /*.asc*
+    Disallow: /*.csv*
+    Disallow: /*.dods*
+    Disallow: /*.esriAscii*
+    Disallow: /*.esriCsv*
+    Disallow: /*.geoJson*
+    Disallow: /*.htmlTable*
+    Disallow: /*.json*
+    Disallow: /*.mat*
+    Disallow: /*.nc*
+    Disallow: /*.odvTxt*
+    Disallow: /*.tsv*
+    Disallow: /*.xhtml*
+    Disallow: /*.geotif*
+    Disallow: /*.itx*
+    Disallow: /*.kml*
+    Disallow: /*.pdf*
+    Disallow: /*.png*
+    Disallow: /*.large*
+    Disallow: /*.small*
+    Disallow: /*.transparentPng*
+    Sitemap: /erddap/sitemap.xml
 {{- end}}

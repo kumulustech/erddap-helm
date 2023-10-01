@@ -9,7 +9,7 @@ spec:
   - websecure
   routes:
   - kind: Rule
-    match: Host(`{{ .Values.ingressrouter.host }}`) && PathPrefix(`/{{ include "erddap.name" . }}`)
+    match: Host(`{{ .Values.domain.name }}`) && PathPrefix(`/{{ include "erddap.name" . }}`)
     services:
     - name: {{ include "erddap.name" . }}
       namespace: dev
