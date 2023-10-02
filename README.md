@@ -4,10 +4,10 @@ Based on, and extending the work done in dockerizing ERDDAP: [erddap-gold-standa
 
 ## Install this chart
 
-You likely want to make at least a minimum configuration values.yaml from the following:
+You likely want to make at least a minimum configuration deploy-values.yaml with at least something like the following:
 
 
-```
+```yaml
 domain:
   enabled: true
   name: your.domain.name
@@ -22,9 +22,7 @@ config:
 Clone this repository to a machine with the helm binary from [helm.sh](https://helm.sh), review the default values, and install.
 
 ```
-git clone https://github.com/kumulustech/erddap-helm.git
-cd erddap-helm
-helm install erddap .
+helm install erddap --repo https://kumulustech.github.io/erddap-helm erddap --values deploy-values.yaml
 ```
 
 ## Contributing
