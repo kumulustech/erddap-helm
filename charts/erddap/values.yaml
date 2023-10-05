@@ -43,7 +43,7 @@ image:
   repository: "axiom/docker-erddap"
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "2.23-jdk17-openjdk"
+  tag: ""
 
 git:
   enabled: true
@@ -96,13 +96,6 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
-
-ingressrouter:
-  enabled: true
-  annotations: {}
-  path: /
-  port: 8080
-  host: test.pacioos.dev
 
 resources:
   requests:

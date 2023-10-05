@@ -1,6 +1,6 @@
 apiVersion: v2
 name: erddap
 description: A Helm chart for Kubernetes
-version: 0.1.4
-appVersion: "2.23"
-icon: https://www.noaa.gov/themes/custom/noaa/images/noaa_digital_logo.svg
+version: 0.1.5
+appVersion: "2.23-jdk17-openjdk"
+type: application
