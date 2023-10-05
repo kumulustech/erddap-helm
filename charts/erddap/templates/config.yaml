@@ -6,9 +6,10 @@ metadata:
     {{- include "erddap.labels" . | nindent 4 }}
 data:
   config.sh: |-
-    ERDDAP_bigParentDirectory="/erddapData/"
-    ERDDAP_baseUrl="http://{{ .Values.domain.name }}"
-    ERDDAP_baseHttpsUrl="https://{{ .Values.domain.name }}"
+    ERDDAP_bigParentDirectory={{ .Values.data.bigParentDirectory }}
+    ERDDAP_contentDirectory={{ .Values.data.contentDirectory }}
+    ERDDAP_baseUrl="http://{{ .Values.config.domain }}"
+    ERDDAP_baseHttpsUrl="https://{{ .Values.config.domain }}"
     ERDDAP_flagKeyKey="{{ .Values.flagKey.key }}"
 
     {{- if .Values.config.enabled }}

@@ -53,17 +53,6 @@ spec:
               mountPath: /content
       containers:
         - name: {{ .Chart.Name }}
-{{- if not .Values.config.enabled }}        
-          env:
-          - name: ERDDAP_bigParentDirectory
-            value: "/erddapData/"
-          - name: ERDDAP_contentDirectory
-            value: "/datasets/"
-          - name: ERDDAP_baseUrl
-            value: "http://{{ .Values.ingressrouter.host }}"
-          - name: ERDDAP_baseHttpsUrl
-            value: "https://{{ .Values.ingressrouter.host }}"
-{{- end}}
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag | default .Chart.AppVersion }}"
@@ -74,15 +63,12 @@ spec:
               protocol: TCP
           livenessProbe:
             httpGet:
-              path: /status.html
+              path: /erddap/status.html
               port: http
-            initialDelaySeconds: 180
-            periodSeconds: 60
-            failureThreshold: 5
-          # readinessProbe:
-          #   httpGet:
-          #     path: /
-          #     port: http
+          readinessProbe:
+            httpGet:
+              path: /erddap
+              port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
           volumeMounts:
