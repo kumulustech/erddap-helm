@@ -7,8 +7,10 @@ flagKey:
   key: "ChangeThisToSomethingUniqueToYourInstallation"
 
 domain:
-  enabled: true
   name: "test.example.com"
+data:
+  bigParentDirectory: "/erddapData"
+  contentDirectory: "/datasets"
 
 config:
   enabled: false
