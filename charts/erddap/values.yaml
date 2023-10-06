@@ -8,6 +8,7 @@ flagKey:
 
 domain:
   name: "test.example.com"
+
 data:
   bigParentDirectory: "/erddapData"
   contentDirectory: "/datasets"
