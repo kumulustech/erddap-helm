@@ -3,6 +3,16 @@ entries:
   erddap:
   - apiVersion: v2
     appVersion: 2.23-jdk17-openjdk
+    created: "2024-03-28T21:48:41.504977726Z"
+    description: A Helm chart for Kubernetes
+    digest: 2ded5523444627a318cb5a1a8b077f667a6af26981691108d200ececc1ae107d
+    name: erddap
+    type: application
+    urls:
+    - https://github.com/kumulustech/erddap-helm/releases/download/erddap-0.1.8/erddap-0.1.8.tgz
+    version: 0.1.8
+  - apiVersion: v2
+    appVersion: 2.23-jdk17-openjdk
     created: "2023-10-06T00:08:13.928678184Z"
     description: A Helm chart for Kubernetes
     digest: 880f49323ccad30ce75815a41cf15834926716206871e2d8efecaef984ca553b
@@ -51,4 +61,4 @@ entries:
     urls:
     - https://github.com/kumulustech/erddap-helm/releases/download/erddap-0.1.3/erddap-0.1.3.tgz
     version: 0.1.3
-generated: "2023-10-06T00:08:13.928694184Z"
+generated: "2024-03-28T21:48:41.505000578Z"
